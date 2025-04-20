@@ -1,0 +1,99 @@
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 250, 0, 120)
+frame.Position = UDim2.new(0.5, -125, 0.5, -60)
+frame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+frame.BorderSizePixel = 0
+frame.Active = true
+frame.Draggable = true
+frame.Parent = screenGui
+
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(1, -30, 0, 25)
+titleLabel.Position = UDim2.new(0, 0, 0, 0)
+titleLabel.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+titleLabel.BorderSizePixel = 0
+titleLabel.Text = "Etrux AnimPlayer"
+titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+titleLabel.TextSize = 16
+titleLabel.Font = Enum.Font.SourceSans
+titleLabel.Parent = frame
+
+local closeButton = Instance.new("TextButton")
+closeButton.Size = UDim2.new(0, 25, 0, 25)
+closeButton.Position = UDim2.new(1, -25, 0, 0)
+closeButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+closeButton.Text = "X"
+closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.TextSize = 14
+closeButton.Font = Enum.Font.SourceSans
+closeButton.Parent = frame
+
+closeButton.MouseButton1Click:Connect(function()
+    frame:Destroy()
+end)
+
+local textBox = Instance.new("TextBox")
+textBox.Size = UDim2.new(1, -20, 0, 30)
+textBox.Position = UDim2.new(0, 10, 0, 35)
+textBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+textBox.Text = "Enter Animation ID"
+textBox.TextColor3 = Color3.fromRGB(0, 0, 0)
+textBox.TextSize = 14
+textBox.Font = Enum.Font.SourceSans
+textBox.ClearTextOnFocus = true
+textBox.Parent = frame
+
+local playButton = Instance.new("TextButton")
+playButton.Size = UDim2.new(0.5, -15, 0, 30)
+playButton.Position = UDim2.new(0, 10, 0, 75)
+playButton.BackgroundColor3 = Color3.fromRGB(100, 200, 100)
+playButton.Text = "Play"
+playButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+playButton.TextSize = 14
+playButton.Font = Enum.Font.SourceSans
+playButton.Parent = frame
+
+local stopButton = Instance.new("TextButton")
+stopButton.Size = UDim2.new(0.5, -15, 0, 30)
+stopButton.Position = UDim2.new(0.5, 5, 0, 75)
+stopButton.BackgroundColor3 = Color3.fromRGB(200, 100, 100)
+stopButton.Text = "Stop"
+stopButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+stopButton.TextSize = 14
+stopButton.Font = Enum.Font.SourceSans
+stopButton.Parent = frame
+
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local track
+
+playButton.MouseButton1Click:Connect(function()
+    local animId = textBox.Text
+    if animId ~= "" then
+        if track then
+            track:Stop()
+        end
+        local anim = Instance.new("Animation")
+        anim.AnimationId = "rbxassetid://" .. animId
+        track = humanoid:LoadAnimation(anim)
+        track:Play()
+    end
+end)
+
+stopButton.MouseButton1Click:Connect(function()
+    if track then
+        track:Stop()
+    end
+end)
+
+--- Animation List ---
+--184574340 - Hero Jump
+--313762630 - Levitate
+--179224234 - FloatSit
+--429703734 - MovingDance
+--215384594 - CloneIllusion
+--------------------------
